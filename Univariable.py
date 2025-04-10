@@ -41,31 +41,22 @@ class Univariate():
                     descriptive[columnName]["Greater"]=descriptive[columnName]["Q3:75%"]+descriptive[columnName]["1.5 rule"]
                     descriptive[columnName]["Min"]=dataset[columnName].min()
                     descriptive[columnName]["Max"]=dataset[columnName].max()
-                return descriptive
+                    return descriptive   
 
-            
-            
-  #OUTLIER COLUMNNAMES FUNCTION
+        def OutlierColumnNames(quan):
+            Lesser=[]
+            Greater=[]
 
-      def OutlierColumnNames(quan):
-        Lesser=[]
-        Greater=[]
+            for columnName in quan:
+                if(descriptive[columnName]["Min"]<descriptive[columnName]["Lesser"]):
+                    Lesser.append(columnName)
+                if(descriptive[columnName]["Max"]>descriptive[columnName]["Greater"]):
+                    Greater.append(columnName)
+                return Lesser,Greater   
 
-        for columnName in quan:
-            if(descriptive[columnName]["Min"]<descriptive[columnName]["Lesser"]):
-                Lesser.append(columnName)
-            if(descriptive[columnName]["Max"]>descriptive[columnName]["Greater"]):
-                Greater.append(columnName)
-        return Lesser,Greater
-    
-    
-    
-    # REPLACING OUTLIERS FUNCTION
-
-    def ReplacingOutliers(dataset):
-        for columnName in Lesser:
-            dataset[columnName][dataset[columnName]<descriptive[columnName]["Lesser"]] = descriptive[columnName]["Lesser"]
-        for columnName in Greater:
-            dataset[columnName][dataset[columnName]>descriptive[columnName]["Greater"]] = descriptive[columnName]["Greater"]
-        return dataset
-    
+        def ReplacingOutliers(dataset):
+            for columnName in Lesser:
+                dataset[columnName][dataset[columnName]<descriptive[columnName]["Lesser"]] = descriptive[columnName]["Lesser"]
+            for columnName in Greater:
+                dataset[columnName][dataset[columnName]>descriptive[columnName]["Greater"]] = descriptive[columnName]["Greater"]
+            return dataset
